@@ -1,0 +1,156 @@
+/* Importamos una fuente moderna de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #0d1117; /* Fondo muy oscuro (GitHub style) */
+    color: #c9d1d9;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.contenedor {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #58a6ff; /* Azul neón */
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 0 0 15px rgba(88, 166, 255, 0.4);
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #8b949e;
+    font-size: 1.1rem;
+}
+
+/* Caja de Resultados */
+.caja-resultado {
+    background: linear-gradient(135deg, #1f6feb, #0d47a1);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(31, 111, 235, 0.3);
+}
+
+.caja-resultado h3 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: #a5d6ff;
+}
+
+.caja-resultado p {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+/* Menú Principal y Paneles */
+.menu-principal, .panel {
+    background-color: #161b22; /* Fondo de tarjeta */
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.panel h2, .menu-principal h2 {
+    color: #58a6ff;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 15px;
+}
+
+.grid-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Botones y Formularios */
+input, select {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #58a6ff;
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+}
+
+.btn-menu, .btn-calcular {
+    width: 100%;
+    padding: 14px;
+    background-color: #238636; /* Verde para acciones principales */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn-menu:hover, .btn-calcular:hover {
+    background-color: #2ea043;
+}
+
+.btn-menu:active, .btn-calcular:active {
+    transform: scale(0.98);
+}
+
+/* Botones del menú (estilo alternativo) */
+.btn-menu {
+    background-color: #21262d;
+    border: 1px solid #30363d;
+}
+
+.btn-menu:hover {
+    background-color: #30363d;
+    border-color: #58a6ff;
+}
+
+/* Enlace de volver */
+.volver {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #8b949e;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.volver:hover {
+    color: #58a6ff;
+}

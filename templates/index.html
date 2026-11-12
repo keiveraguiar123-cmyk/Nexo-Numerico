@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nexo Numérico - Solucionador</title>
+    <style>
+        body {
+            background-color: #1e293b;
+            background-image: url("{{ url_for('static', filename='fondo_mate.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+        }
+
+        .contenedor-central {
+            background-color: rgba(15, 23, 42, 0.90);
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            font-size: 2.2rem;
+            color: #38bdf8;
+        }
+
+        p.subtitulo {
+            color: #94a3b8;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+
+        .btn-opcion, input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #475569;
+            background-color: #1e293b;
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-opcion {
+            background-color: #0284c7;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.1s;
+        }
+
+        .btn-opcion:hover {
+            background-color: #0369a1;
+            transform: translateY(-1px);
+        }
+
+        .btn-volver {
+            background-color: #475569;
+        }
+        .btn-volver:hover {
+            background-color: #334155;
+        }
+
+        .caja-resultado {
+            background-color: rgba(30, 41, 59, 0.95);
+            border-left: 5px solid #38bdf8;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: left;
+            border-radius: 6px;
+            word-break: break-word;
+            font-family: monospace;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-central">
+        <h1>Nexo Numérico</h1>
+        <p class="subtitulo">Solucionador de Matemática Numérica</p>
+
+        <!-- NAVEGACIÓN Y MÓDULOS -->
+        {% if seccion == 'menu' %}
+            <h3>Selecciona un Módulo</h3>
+            <form method="POST">
+                <button type="submit" name="accion" value="ir_ecuacion" class="btn-opcion">📐 Resolución de Ecuaciones</button>
+                <button type="submit" name="accion" value="ir_conversor" class="btn-opcion">🔢 Conversor Numérico (Bin/Hex)</button>
+                <button type="submit" name="accion" value="ir_newton" class="btn-opcion">📈 Método de Newton-Raphson</button>
+                <button type="submit" name="accion" value="ir_euler" class="btn-opcion">📉 Método de Euler (EDO)</button>
+                <button type="submit" name="accion" value="ir_historial" class="btn-opcion">📜 Historial de Cálculos</button>
+                <button type="submit" name="accion" value="salir" class="btn-opcion" style="background-color: #dc2626;">🚪 Salir</button>
+            </form>
+
+        {% elif seccion == 'ecuacion' %}
+            <h3>Resolución de Ecuaciones</h3>
+            <form method="POST">
+                <input type="text" name="ecuacion_completa" placeholder="Ej: x - 2 + y^2 = 0" required>
+                <button type="submit" name="accion" value="ecuacion" class="btn-opcion">Resolver Ecuación</button>
+            </form>
+            <a href="{{ url_for('inicio') }}" class="btn-opcion btn-volver">Volver al Menú</a>
+
+        {% elif seccion == 'conversor' %}
+            <h3>Conversor Numérico</h3>
+            <form method="POST">
+                <input type="number" name="num_dec" placeholder="Número entero decimal" required>
+                <select name="tipo_conv">
+                    <option value="bin">A Binario</option>
+                    <option value="hex">A Hexadecimal</option>
+                </select>
+                <button type="submit" name="accion" value="conversor" class="btn-opcion">Convertir</button>
+            </form>
+            <a href="{{ url_for('inicio') }}" class="btn-opcion btn-volver">Volver al Menú</a>
+
+        {% elif seccion == 'newton' %}
+            <h3>Método de Newton-Raphson</h3>
+            <form method="POST">
+                <input type="text" name="funcion" placeholder="Función f(x) (ej: x**2 - 4)" required>
+                <input type="number" step="any" name="x0" placeholder="Valor inicial x0" required>
+                <input type="number" step="any" name="tolerancia" placeholder="Tolerancia (ej: 0.0001)" required>
+                <button type="submit" name="accion" value="newton" class="btn-opcion">Calcular Raíz</button>
+            </form>
+            <a href="{{ url_for('inicio') }}" class="btn-opcion btn-volver">Volver al Menú</a>
+
+        {% elif seccion == 'euler' %}
+            <h3>Método de Euler (EDO)</h3>
+            <form method="POST">
+                <input type="number" step="any" name="x0_euler" placeholder="Valor inicial x0" required>
+                <input type="number" step="any" name="y0_euler" placeholder="Valor inicial y0" required>
+                <input type="number" step="any" name="h_euler" placeholder="Tamaño de paso h (ej: 0.1)" required>
+                <input type="number" name="iters" placeholder="Número de iteraciones" required>
+                <button type="submit" name="accion" value="euler" class="btn-opcion">Ejecutar Euler</button>
+            </form>
+            <a href="{{ url_for('inicio') }}" class="btn-opcion btn-volver">Volver al Menú</a>
+
+        {% elif seccion == 'historial' %}
+            <h3>Historial de Cálculos Recientes</h3>
+            {% if historial %}
+                {% for item in historial %}
+                    <div style="background: rgba(30,41,59,0.8); padding: 10px; margin: 8px 0; border-radius: 6px; text-align: left;">
+                        <small style="color: #38bdf8;"><b>{{ item.modulo }}</b></small><br>
+                        <span>{{ item.detalle }}</span><br>
+                        <span style="color: #a3e635;">➔ {{ item.resultado | safe }}</span>
+                    </div>
+                {% endfor %}
+                <form method="POST">
+                    <button type="submit" name="accion" value="limpiar_historial" class="btn-opcion" style="background-color: #dc2626;">🗑️ Limpiar Historial</button>
+                </form>
+            {% else %}
+                <p>No hay cálculos recientes en el historial.</p>
+            {% endif %}
+            <a href="{{ url_for('inicio') }}" class="btn-opcion btn-volver">Volver al Menú</a>
+
+        {% elif seccion == 'salir' %}
+            <div style="text-align: center; padding: 20px;">
+                <h3>¡Gracias por usar Nexo Numérico!</h3>
+                <p style="color: #94a3b8;">Puedes cerrar esta pestaña o recargar para volver a ingresar.</p>
+                <a href="{{ url_for('inicio') }}" class="btn-opcion" style="background-color: #0284c7; margin-top: 15px;">Regresar al Sistema</a>
+            </div>
+        {% endif %}
+
+        <!-- CAJA DE RESULTADOS GLOBAL -->
+        {% if resultado %}
+            <div class="caja-resultado">
+                <strong>RESULTADO:</strong><br><br>
+                {{ resultado | safe }}
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
